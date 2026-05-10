@@ -361,7 +361,7 @@ import { StatusIndicator } from 'vue-status-indicator'
 import Tabset from './tabset.vue'
 import NavSidebar from './nav-sidebar.vue'
 import Prism from 'prismjs'
-import mermaid from 'mermaid'
+/* import mermaid from 'mermaid' */
 import { get, sync } from 'vuex-pathify'
 import _ from 'lodash'
 import ClipboardJS from 'clipboard'
@@ -620,10 +620,21 @@ export default {
     Prism.highlightAllUnder(this.$refs.container)
 
     // -> Render Mermaid diagrams
-    mermaid.mermaidAPI.initialize({
-      startOnLoad: true,
-      theme: this.$vuetify.theme.dark ? `dark` : `default`
-    })
+    try {
+      const module = await new Function(`return import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")`)();
+      const modernMermaid = module.default;
+    
+      modernMermaid.initialize({
+        startOnLoad: false,
+        theme: this.$store.state.site.theme === 'dark' ? 'dark' : 'default'
+      });
+      await modernMermaid.run({
+        nodes: this.$el.querySelectorAll('.mermaid')
+      });
+    
+    } catch (error) {
+      console.error('Failed to load modern Mermaid via CDN:', error);
+    }
 
     // -> Handle anchor scrolling
     if (window.location.hash && window.location.hash.length > 1) {

@@ -620,22 +620,18 @@ export default {
     Prism.highlightAllUnder(this.$refs.container)
 
     // -> Render Mermaid diagrams
-    import('https://cdn.jsdelivr.net/npm/mermaid@11.14.0/dist/mermaid.esm.min.mjs')
+    new Function(`return import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")`)()
       .then(module => {
         const modernMermaid = module.default;
     
         modernMermaid.initialize({
           startOnLoad: false,
-          theme: this.$vuetify.theme.dark ? 'dark' : 'default'
+          theme: this.$vuetify.theme.dark ? `dark` : `default`
         });
     
-        const nodes = this.$el.querySelectorAll('.mermaid');
-    
-        nodes.forEach(node => {
-          node.removeAttribute('data-processed');
+        return modernMermaid.run({
+          nodes: this.$el.querySelectorAll('.mermaid')
         });
-    
-        return modernMermaid.run({ nodes });
       })
       .catch(error => {
         console.error('Failed to load modern Mermaid via CDN:', error);

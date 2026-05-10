@@ -626,7 +626,7 @@ export default {
     
         modernMermaid.initialize({
           startOnLoad: false,
-          theme: this.$store.state.site.theme === 'dark' ? 'dark' : 'default'
+          theme: 'dark',
         });
     
         return modernMermaid.run({

@@ -625,10 +625,17 @@ export default {
         const modernMermaid = module.default;
     
         modernMermaid.initialize({
-          startOnLoad: true,
+          startOnLoad: false,
           theme: this.$vuetify.theme.dark ? `dark` : `default`
         });
+    
+        return modernMermaid.run({
+          nodes: this.$el.querySelectorAll('.mermaid')
+        });
       })
+      .catch(error => {
+        console.error('Failed to load modern Mermaid via CDN:', error);
+      });
 
     // -> Handle anchor scrolling
     if (window.location.hash && window.location.hash.length > 1) {

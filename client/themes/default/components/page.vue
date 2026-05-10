@@ -626,7 +626,7 @@ export default {
     
         modernMermaid.initialize({
           startOnLoad: false,
-          theme: 'dark',
+          theme: this.$vuetify.theme.dark ? `dark` : `default`
         });
     
         return modernMermaid.run({

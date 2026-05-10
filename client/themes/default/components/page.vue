@@ -620,7 +620,7 @@ export default {
     Prism.highlightAllUnder(this.$refs.container)
 
     // -> Render Mermaid diagrams
-    new Function(`return import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")`)()
+    new Function(`return import("https://cdn.jsdelivr.net/npm/mermaid@11.14.0/dist/mermaid.esm.min.mjs")`)()
       .then(module => {
         const modernMermaid = module.default;
     
